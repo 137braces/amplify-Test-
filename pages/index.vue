@@ -1,83 +1,89 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+
+  <div style="max-width: 800px;">
+    <v-text-field
+      label="コメント"
+      placeholder="ここにコメントを書きましょう"
+      outlined
+      class="mx-auto"
+      append-icon="mdi-check-bold"
+      style="max-width: 100%; box-sizing: border-box;"
+      
+      v-model="form.content"
+      @keydown="onEnter"
+      @click:append="createPost"
+    ></v-text-field>
+
+<v-card v-for="(item, index) in items" :key="index" elevation="10" tile>
+  <v-list-item three-line>
+    <v-list-item-title>{{ item.content }}</v-list-item-title>
+    <v-list-item-subtitle>by: {{ item.user }}</v-list-item-subtitle>
+  </v-list-item> 
+</v-card>
+
+  </div>
+
+
 </template>
 
 <script>
+import { API } from 'aws-amplify' // Amplifyライブラリを読み込み
+import { createPost } from '~/src/graphql/mutations' // GraphQL Mutation（データをエンドポイントに送信する構文?）
+import { listPosts } from '~/src/graphql/queries' // GraphQL Query（データを読み込む構文？）
+import { onCreatePost } from '~/src/graphql/subscriptions'
+
 export default {
-  name: 'IndexPage'
+  data() {
+    return {
+      form: {
+        content: '',
+      },
+      items: [],
+    }
+  },
+  created() {
+    this.getPostList() 
+    this.subscribe()
+  },
+  methods: {
+    async createPost() {
+      // コメントを送信する
+      const content = this.form.content // コメント入力値を取得
+        if (!content) return // 空のときは処理しない
+        const post = { content
+          } // 送信用のJSONを作成
+
+        // 送信処理
+        await API.graphql({
+          query: createPost, // GraphQL Mutation
+          variables: { input: post }, // 送信データ
+        })
+
+      this.form.content = '' // 送信後にテキストフィールドを空に。
+      
+    },
+    onEnter(event) {
+      // ここはおまけ。（Enterを押したときもコメントを送信したかったので記述）
+      if (event.keyCode !== 13) return
+      alert('Enterキーが押されました');
+      this.createPost()
+    },
+    async getPostList() {  
+    // コメント一覧を取得
+      const postList = await API.graphql({
+        query: listPosts, // GraphQL Query
+      })
+      this.items = postList.data.listPosts.items // 読み込みしたデータを一覧に表示
+    },
+    subscribe() {
+      API.graphql({ query: onCreatePost }).subscribe({
+        next: (eventData) => {
+          const post = eventData.value.data.onCreatePost
+          this.items = [...this.items, post]
+        }
+      })
+    },
+  }
 }
 </script>
+
