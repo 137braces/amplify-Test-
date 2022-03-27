@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "nuxt",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/aokihayata/Desktop/spa/docker-nuxt/src/amplify/backend/api/nuxt/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}
