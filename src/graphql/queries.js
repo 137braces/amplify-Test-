@@ -6,7 +6,7 @@ export const getPost = /* GraphQL */ `
     getPost(id: $id) {
       id
       content
-      user
+      owner
       createdAt
       updatedAt
     }
@@ -22,7 +22,7 @@ export const listPosts = /* GraphQL */ `
       items {
         id
         content
-        user
+        owner
         createdAt
         updatedAt
       }

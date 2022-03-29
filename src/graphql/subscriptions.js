@@ -6,7 +6,7 @@ export const onCreatePost = /* GraphQL */ `
     onCreatePost {
       id
       content
-      user
+      owner
       createdAt
       updatedAt
     }
@@ -17,7 +17,7 @@ export const onUpdatePost = /* GraphQL */ `
     onUpdatePost {
       id
       content
-      user
+      owner
       createdAt
       updatedAt
     }
@@ -28,7 +28,7 @@ export const onDeletePost = /* GraphQL */ `
     onDeletePost {
       id
       content
-      user
+      owner
       createdAt
       updatedAt
     }
