@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "nuxtamplify",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/aokihayata/Desktop/spa/docker-nuxt/src/amplify/backend/api/nuxtamplify/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authnuxtamplifyd46d49f3"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
+  }
+}

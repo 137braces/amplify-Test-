@@ -1,6 +1,7 @@
 <template>
 
   <div style="max-width: 800px;">
+    <amplify-authenticator>
     <v-text-field
       label="コメント"
       placeholder="ここにコメントを書きましょう"
@@ -13,11 +14,12 @@
       @keydown="onEnter"
       @click:append="createPost"
     ></v-text-field>
+  </amplify-authenticator>
 
 <v-card v-for="(item, index) in items" :key="index" elevation="10" tile>
   <v-list-item three-line>
     <v-list-item-title>{{ item.content }}</v-list-item-title>
-    <v-list-item-subtitle>by: {{ item.user }}</v-list-item-subtitle>
+    <v-list-item-subtitle>by: {{ item.owner }}</v-list-item-subtitle>
   </v-list-item> 
 </v-card>
 
@@ -79,6 +81,7 @@ export default {
       API.graphql({ query: onCreatePost }).subscribe({
         next: (eventData) => {
           const post = eventData.value.data.onCreatePost
+          if (this.items.some((item) => item.content === post.content)) return
           this.items = [...this.items, post]
         }
       })
@@ -86,4 +89,3 @@ export default {
   }
 }
 </script>
-

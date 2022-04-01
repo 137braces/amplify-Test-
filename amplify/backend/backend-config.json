@@ -1,6 +1,6 @@
 {
   "api": {
-    "nuxt": {
+    "nuxtamplify": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -8,25 +8,16 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authnuxt89666672"
+              "userPoolId": "authnuxtamplifyd46d49f3"
             }
           },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "API_KEY",
-              "apiKeyConfig": {
-                "apiKeyExpirationDays": 7,
-                "apiKeyExpirationDate": "2022-04-03T17:22:33.660Z",
-                "description": ""
-              }
-            }
-          ]
+          "additionalAuthenticationProviders": []
         }
       }
     }
   },
   "auth": {
-    "nuxt89666672": {
+    "nuxtamplifyd46d49f3": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

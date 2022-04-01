@@ -1,12 +1,12 @@
 {
-  "AppSyncApiName": "nuxt",
+  "AppSyncApiName": "nuxtamplify",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
-      "authnuxt89666672",
+      "authnuxtamplifyd46d49f3",
       "Outputs.UserPoolId"
     ]
   },
-  "AuthModeLastUpdated": "2022-03-27T17:21:54.942Z"
+  "AuthModeLastUpdated": "2022-04-01T07:13:11.109Z"
 }
