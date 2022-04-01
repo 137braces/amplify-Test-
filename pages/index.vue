@@ -1,7 +1,7 @@
 <template>
 
   <div style="max-width: 800px;">
-    <amplify-authenticator>
+  
     <v-text-field
       label="コメント"
       placeholder="ここにコメントを書きましょう"
@@ -14,7 +14,7 @@
       @keydown="onEnter"
       @click:append="createPost"
     ></v-text-field>
-  </amplify-authenticator>
+  
 
 <v-card v-for="(item, index) in items" :key="index" elevation="10" tile>
   <v-list-item three-line>
@@ -32,6 +32,7 @@
 import { API } from 'aws-amplify' // Amplifyライブラリを読み込み
 import { createPost } from '~/src/graphql/mutations' // GraphQL Mutation（データをエンドポイントに送信する構文?）
 import { listPosts } from '~/src/graphql/queries' // GraphQL Query（データを読み込む構文？）
+import { onCreatePost } from '~/src/graphql/subscriptions'
 
 export default {
   data() {
@@ -44,7 +45,7 @@ export default {
   },
   created() {
     this.getPostList() 
-
+    
   },
   methods: {
     async createPost() {
@@ -75,7 +76,7 @@ export default {
       })
       this.items = postList.data.listPosts.items // 読み込みしたデータを一覧に表示
     },
-    
+  
   }
 }
 </script>

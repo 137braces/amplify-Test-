@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "nuxtamplifyd46d49f3": {}
+        "nuxtamplifyd46d49f3": {},
+        "userPoolGroups": {}
       }
     }
   }
