@@ -32,7 +32,6 @@
 import { API } from 'aws-amplify' // Amplifyライブラリを読み込み
 import { createPost } from '~/src/graphql/mutations' // GraphQL Mutation（データをエンドポイントに送信する構文?）
 import { listPosts } from '~/src/graphql/queries' // GraphQL Query（データを読み込む構文？）
-import { onCreatePost } from '~/src/graphql/subscriptions'
 
 export default {
   data() {
@@ -45,15 +44,14 @@ export default {
   },
   created() {
     this.getPostList() 
-    this.subscribe()
+
   },
   methods: {
     async createPost() {
       // コメントを送信する
       const content = this.form.content // コメント入力値を取得
         if (!content) return // 空のときは処理しない
-        const post = { content
-          } // 送信用のJSONを作成
+        const post = { content } // 送信用のJSONを作成
 
         // 送信処理
         await API.graphql({
@@ -77,15 +75,7 @@ export default {
       })
       this.items = postList.data.listPosts.items // 読み込みしたデータを一覧に表示
     },
-    subscribe() {
-      API.graphql({ query: onCreatePost }).subscribe({
-        next: (eventData) => {
-          const post = eventData.value.data.onCreatePost
-          if (this.items.some((item) => item.content === post.content)) return
-          this.items = [...this.items, post]
-        }
-      })
-    },
+    
   }
 }
 </script>
