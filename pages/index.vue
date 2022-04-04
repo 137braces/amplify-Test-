@@ -1,10 +1,8 @@
 <template>
 
   <div style="max-width: 800px;">
-  
-    <v-text-field
-      label="コメント"
-      placeholder="ここにコメントを書きましょう"
+   
+    <v-text-field label="コメント" placeholder="ここにコメントを書きましょう"
       outlined
       class="mx-auto"
       append-icon="mdi-check-bold"
@@ -14,7 +12,6 @@
       @keydown="onEnter"
       @click:append="createPost"
     ></v-text-field>
-  
 
 <v-card v-for="(item, index) in items" :key="index" elevation="10" tile>
   <v-list-item three-line>
@@ -22,6 +19,11 @@
     <v-list-item-subtitle>by: {{ item.owner }}</v-list-item-subtitle>
   </v-list-item> 
 </v-card>
+
+<v-card>
+      <amplify-sign-out v-if="logoutBtn"></amplify-sign-out>
+    </v-card>
+
 
   </div>
 
@@ -32,7 +34,7 @@
 import { API } from 'aws-amplify' // Amplifyライブラリを読み込み
 import { createPost } from '~/src/graphql/mutations' // GraphQL Mutation（データをエンドポイントに送信する構文?）
 import { listPosts } from '~/src/graphql/queries' // GraphQL Query（データを読み込む構文？）
-import { onCreatePost } from '~/src/graphql/subscriptions'
+// import { onCreatePost } from '~/src/graphql/subscriptions'
 
 export default {
   data() {
@@ -51,7 +53,14 @@ export default {
     async createPost() {
       // コメントを送信する
       const content = this.form.content // コメント入力値を取得
-        if (!content) return // 空のときは処理しない
+        if (!content) {
+           alert("文字を入力して下さい") 
+           return // 空のときは処理しない
+        }
+        else if(content.length >= 5) {
+           alert("文字数が多いです")
+           return 
+        }
         const post = { content } // 送信用のJSONを作成
 
         // 送信処理
@@ -63,10 +72,9 @@ export default {
       this.form.content = '' // 送信後にテキストフィールドを空に。
       
     },
+
     onEnter(event) {
-      // ここはおまけ。（Enterを押したときもコメントを送信したかったので記述）
       if (event.keyCode !== 13) return
-      alert('Enterキーが押されました');
       this.createPost()
     },
     async getPostList() {  

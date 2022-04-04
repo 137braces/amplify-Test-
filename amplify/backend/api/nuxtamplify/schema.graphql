@@ -1,5 +1,6 @@
-type Post @model {
+type Post @model @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
   id: ID!
-  content: String!,
+  title: String!
+  content: String!
   owner: String
 }
