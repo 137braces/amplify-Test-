@@ -21,7 +21,7 @@
 </v-card>
 
 <v-card>
-      <amplify-sign-out v-if="logoutBtn"></amplify-sign-out>
+     
     </v-card>
 
 
@@ -57,7 +57,7 @@ export default {
            alert("文字を入力して下さい") 
            return // 空のときは処理しない
         }
-        else if(content.length >= 5) {
+        else if(content.length >= 3000) {
            alert("文字数が多いです")
            return 
         }
