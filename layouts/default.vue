@@ -50,16 +50,18 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
+      
+<!-- ////////////////////右上アイコン集////////////////// -->
+      <v-btn>
+      <v-icon>mdi-magnify</v-icon>
       </v-btn>
-
+      <v-btn>
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
       <v-btn @click="dialog = true">
       <v-icon>mdi-pencil-box-outline</v-icon>
       </v-btn>
+
       
     </v-app-bar>
     <v-main>
@@ -73,17 +75,7 @@
       temporary
       fixed
     >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-            
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
+   
     </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
@@ -114,12 +106,11 @@
           <span class="text-h5">User Profile</span>
         </v-card-title>
        
-      <vue-quill-editor v-model="content"
-                 ref="quillEditor"
-                 options="editorOption"></vue-quill-editor>
+      
 
         <v-card-actions>
           <v-spacer></v-spacer>
+          
           <v-btn
             color="blue darken-1"
             text
@@ -139,6 +130,62 @@
     </v-dialog>
   </v-row>
 
+<!-- ////////////////////ホップアップ////////////////// --> 
+  <v-card
+    class="mx-auto"
+    width="256"
+    tile
+    v-model="hopup"
+    :absolute="absolute"
+  >
+    <v-navigation-drawer permanent>
+      <v-system-bar></v-system-bar>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-content>
+            <v-list-item-title class="text-h6">
+              John Leider
+            </v-list-item-title>
+            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+          </v-list-item-content>
+
+          <v-list-item-action>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="selectedItem"
+          color="primary"
+        >
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+          >
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+  </v-card>
+
   </v-app>
 
   
@@ -153,17 +200,32 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
+
+      // ホップアップ一覧
+      absolute: true,
+      hopup: false,
+      // ///////////////////////////////////
+
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'ホーム',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+          icon: 'mdi-account',
+          title: 'プロフィール',
+          to: '/User/user_prf'
+        },
+        // ホップアップ一覧
+        { text: 'My Files', icon: 'mdi-folder' },
+        { text: 'Shared with me', icon: 'mdi-account-multiple' },
+        { text: 'Starred', icon: 'mdi-star' },
+        { text: 'Recent', icon: 'mdi-history' },
+        { text: 'Offline', icon: 'mdi-check-circle' },
+        { text: 'Uploads', icon: 'mdi-upload' },
+        { text: 'Backups', icon: 'mdi-cloud-upload' },
+        // /////////////////////////////////////////////////////////
       ],
       miniVariant: false,
       right: true,
