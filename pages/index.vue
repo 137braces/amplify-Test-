@@ -3,14 +3,13 @@
   <div style="max-width: 800px;">
    
     <v-text-field label="コメント" placeholder="ここにコメントを書きましょう"
+      v-model="form.content"
+      @keydown="onEnter"
+      @click:append="createPost"
       outlined
       class="mx-auto"
       append-icon="mdi-check-bold"
       style="max-width: 100%; box-sizing: border-box;"
-      
-      v-model="form.content"
-      @keydown="onEnter"
-      @click:append="createPost"
     ></v-text-field>
 
 <v-card v-for="(item, index) in items" :key="index" elevation="10" tile>
@@ -19,10 +18,6 @@
     <v-list-item-subtitle>by: {{ item.owner }}</v-list-item-subtitle>
   </v-list-item> 
 </v-card>
-
-<v-card>
-     
-    </v-card>
 
 
   </div>
