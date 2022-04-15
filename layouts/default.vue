@@ -51,16 +51,82 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
       
-<!-- ////////////////////右上アイコン集////////////////// -->
+<!-- ////////////////////右上アイコン集↓↓↓////////////////// -->
       <v-btn>
-      <v-icon>mdi-magnify</v-icon>
+      <v-icon>mdi-magnify</v-icon><!-- サーチアイコン -->
       </v-btn>
-      <v-btn>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+
       <v-btn @click="dialog = true">
-      <v-icon>mdi-pencil-box-outline</v-icon>
+      <v-icon>mdi-pencil-box-outline</v-icon><!-- 投稿アイコン -->
       </v-btn>
+      
+      <v-menu
+            bottom
+            left
+          >
+
+      <template v-slot:activator="{ on, attrs }">
+      <v-btn v-bind="attrs" v-on="on">
+        <v-icon>mdi-account</v-icon><!-- ユーザーアイコン -->
+      </v-btn>
+      </template>
+<!-- ////////////////////ホップアップ////////////////// --> 
+  <v-card
+    class="mx-auto"
+    width="256"
+    tile
+    padding-top="100px"
+  >
+    <v-navigation-drawer permanent>
+      <v-system-bar></v-system-bar>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-content>
+            <v-list-item-title class="text-h6">
+              John Leider
+            </v-list-item-title>
+            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+          </v-list-item-content>
+
+          <v-list-item-action>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="selectedItem"
+          color="primary"
+        >
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+          >
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+  </v-card>
+
+  </v-menu>
+<!-- ////////////////////右上アイコン集↑↑↑////////////////// -->
 
       
     </v-app-bar>
@@ -91,16 +157,7 @@
       persistent
       max-width="600px"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Open Dialog
-        </v-btn>
-      </template>
+     
       <v-card>
         <v-card-title>
           <span class="text-h5">User Profile</span>
@@ -130,8 +187,6 @@
     </v-dialog>
   </v-row>
 
-<!-- ////////////////////ホップアップ////////////////// --> 
-  
   </v-app>
 
   
@@ -148,7 +203,8 @@ export default {
       fixed: false,
 
       // ホップアップ一覧
-     
+      absolute: true,
+      hopup: false,
       // ///////////////////////////////////
 
       items: [
@@ -160,10 +216,11 @@ export default {
         {
           icon: 'mdi-account',
           title: 'プロフィール',
-          to: '/User/user_prf'
+          to: '/User/profile'
         },
         // ホップアップ一覧
-        
+       
+        // /////////////////////////////////////////////////////////
       ],
       miniVariant: false,
       right: true,
@@ -174,3 +231,4 @@ export default {
 }
 
 </script>
+

@@ -5,7 +5,6 @@ export const onCreatePost = /* GraphQL */ `
   subscription OnCreatePost {
     onCreatePost {
       id
-      title
       content
       owner
       createdAt
@@ -17,7 +16,6 @@ export const onUpdatePost = /* GraphQL */ `
   subscription OnUpdatePost {
     onUpdatePost {
       id
-      title
       content
       owner
       createdAt
@@ -29,7 +27,6 @@ export const onDeletePost = /* GraphQL */ `
   subscription OnDeletePost {
     onDeletePost {
       id
-      title
       content
       owner
       createdAt
