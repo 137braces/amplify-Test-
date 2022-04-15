@@ -1,6 +1,6 @@
 <template>
   <amplify-authenticator>
-    
+  
   <div style="max-width: 800px;">
    
     <v-text-field label="コメント" placeholder="ここにコメントを書きましょう"
